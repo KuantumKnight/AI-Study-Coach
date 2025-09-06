@@ -1,88 +1,73 @@
-# 🤖 AI Study-Coach  
-> *Your personal AI-powered learning companion, built with Vite, React, and Tailwind.*
+# Welcome to your Lovable project
 
-![GitHub repo size](https://img.shields.io/github/repo-size/KuantumKnight/AI-Study-Coach?color=blue&style=for-the-badge)
-![GitHub stars](https://img.shields.io/github/stars/KuantumKnight/AI-Study-Coach?style=for-the-badge)
-![GitHub forks](https://img.shields.io/github/forks/KuantumKnight/AI-Study-Coach?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+## Project info
 
----
+**URL**: https://lovable.dev/projects/617c8429-1edb-4b86-800f-7ddf3ffad7f5
 
-## 🌟 What is AI Study-Coach?
+## How can I edit this code?
 
-A **virtual AI mentor** that:
-- 📝 Creates **personalized study plans**
-- ⚡ Gives **instant Q&A responses**
-- 📊 Tracks your **progress**
-- ⏰ Sends **smart reminders**  
-- 🧠 Learns and adapts with **your pace**
+There are several ways of editing your application.
 
----
+**Use Lovable**
 
-## 🔑 Features
+Simply visit the [Lovable Project](https://lovable.dev/projects/617c8429-1edb-4b86-800f-7ddf3ffad7f5) and start prompting.
 
-| 🚀 Feature              | 💡 Description |
-|--------------------------|----------------|
-| 📝 **Custom Study Plans** | Structured learning tailored to your goals |
-| 🤔 **AI Q&A**             | Ask questions, get instant contextual help |
-| 📊 **Progress Tracking**  | Visual dashboards for your milestones |
-| ⏰ **Smart Reminders**    | Nudges to stay consistent |
-| 🔄 **Adaptive Learning**  | Plans evolve with your progress |
+Changes made via Lovable will be committed automatically to this repo.
 
----
+**Use your preferred IDE**
 
-## 🛠️ Tech Stack
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
 
-- ⚡ **Vite** — Blazing fast dev & build  
-- ⚛️ **React** — Component-driven UI  
-- 🎨 **Tailwind CSS** — Modern styling  
-- 🟦 **TypeScript** — Safer, scalable code  
-- 🧹 **ESLint & PostCSS** — Clean and optimized  
+The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
----
+Follow these steps:
 
+```sh
+# Step 1: Clone the repository using the project's Git URL.
+git clone <YOUR_GIT_URL>
 
----
+# Step 2: Navigate to the project directory.
+cd <YOUR_PROJECT_NAME>
 
-## ⚡ Getting Started
+# Step 3: Install the necessary dependencies.
+npm i
 
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/KuantumKnight/AI-Study-Coach.git
-   cd AI-Study-Coach
-2. **Install dependencies**
-   ```bash
-   npm install -D vite
-   # or
-   bun install
-3. **Run the dev server**
-   ```bash
-   npm run dev
-4. **Open 👉 http://localhost:5173**
+# Step 4: Start the development server with auto-reloading and an instant preview.
+npm run dev
+```
 
----
+**Edit a file directly in GitHub**
 
-## 🛣️ Roadmap
+- Navigate to the desired file(s).
+- Click the "Edit" button (pencil icon) at the top right of the file view.
+- Make your changes and commit the changes.
 
-- 🧠 Integrate LLM for smart Q&A  
-- 📊 Add progress dashboard with charts  
-- 🔔 Push notification reminders  
-- 📂 Support for uploading PDFs / notes
-- 🌐 Deploy demo app online
+**Use GitHub Codespaces**
 
----
+- Navigate to the main page of your repository.
+- Click on the "Code" button (green button) near the top right.
+- Select the "Codespaces" tab.
+- Click on "New codespace" to launch a new Codespace environment.
+- Edit files directly within the Codespace and commit and push your changes once you're done.
 
-## 👨‍💻 Contributing
+## What technologies are used for this project?
 
-1. **Fork this repo**
-   ```bash
-   git clone https://github.com/KuantumKnight/AI-Study-Coach.git
-   cd AI-Study-Coach
-2. **Create your feature branch:**
-   ```bash
-   git checkout -b feature/amazing-idea
-3. **Commit changes & push:**
-   ```bash
-   git commit -m "Added amazing idea"
-   git push origin feature/amazing-idea
-4. **Open a Pull Request 🚀**
+This project is built with:
+
+- Vite
+- TypeScript
+- React
+- shadcn-ui
+- Tailwind CSS
+
+## How can I deploy this project?
+
+Simply open [Lovable](https://lovable.dev/projects/617c8429-1edb-4b86-800f-7ddf3ffad7f5) and click on Share -> Publish.
+
+## Can I connect a custom domain to my Lovable project?
+
+Yes, you can!
+
+To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+
+Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
