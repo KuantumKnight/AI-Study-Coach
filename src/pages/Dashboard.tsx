@@ -7,11 +7,14 @@ import { ShopSidebar } from '@/components/ShopSidebar';
 import { FocusInsights } from '@/components/FocusInsights';
 import { TeamOverview } from '@/components/TeamOverview';
 import { CreateTeamModal } from '@/components/CreateTeamModal';
+import { TeamsModal } from '@/components/TeamsModal';
+import { LeaderboardModal } from '@/components/LeaderboardModal';
 import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { Brain, Users, Trophy, Sparkles, Sun, Moon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from '@/hooks/use-theme';
 import cosmicTheme from '@/assets/theme-cosmic.jpg';
+import forestTheme from '@/assets/theme-forest.jpg';
 
 export const Dashboard = () => {
   const [user, setUser] = useState({
@@ -26,8 +29,11 @@ export const Dashboard = () => {
 
   const [showQuiz, setShowQuiz] = useState(false);
   const [showCreateTeam, setShowCreateTeam] = useState(false);
+  const [showTeams, setShowTeams] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTeam, setCurrentTeam] = useState(null);
+  const [currentTheme, setCurrentTheme] = useState('cosmic');
   const [todayStats, setTodayStats] = useState({
     sessionsCompleted: 0,
     totalFocusTime: 0, // seconds
@@ -38,6 +44,21 @@ export const Dashboard = () => {
 
   const { toast } = useToast();
   const { theme, changeTheme } = useTheme();
+
+  const getBackgroundImage = () => {
+    switch (currentTheme) {
+      case 'cosmic':
+        return cosmicTheme;
+      case 'forest':
+        return forestTheme;
+      case 'ocean':
+        return 'https://images.unsplash.com/photo-1505142468610-359e7d316be0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
+      case 'sunset':
+        return 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80';
+      default:
+        return cosmicTheme;
+    }
+  };
 
   useEffect(() => {
     // Simulate loading
@@ -126,6 +147,15 @@ export const Dashboard = () => {
         ...prev,
         avatar: item.id
       }));
+    } else if (item.category === 'theme') {
+      // Map theme items to actual theme names
+      const themeMap: { [key: string]: string } = {
+        'theme-cosmic': 'cosmic',
+        'theme-forest': 'forest',
+        'theme-ocean': 'ocean',
+        'theme-sunset': 'sunset'
+      };
+      setCurrentTheme(themeMap[item.id] || 'cosmic');
     }
     console.log('Equipped:', item);
   };
@@ -184,8 +214,8 @@ export const Dashboard = () => {
 
   return (
     <div 
-      className="min-h-screen bg-cover bg-center bg-fixed theme-cosmic"
-      style={{ backgroundImage: `url(${cosmicTheme})` }}
+      className="min-h-screen bg-cover bg-center bg-fixed"
+      style={{ backgroundImage: `url(${getBackgroundImage()})` }}
     >
       <div className={`min-h-screen backdrop-blur-sm ${theme === 'dark' ? 'bg-black/60' : 'bg-white/20'}`}>
         <div className="container mx-auto p-6">
@@ -196,7 +226,7 @@ export const Dashboard = () => {
                 <Brain className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-white">ProductivityCoach</h1>
+                <h1 className="text-3xl font-bold text-white">AI Study Coach</h1>
                 <p className="text-white/80">Gamified Focus & Learning Platform</p>
               </div>
             </div>
@@ -218,6 +248,7 @@ export const Dashboard = () => {
                 Quick Quiz
               </Button>
               <Button
+                onClick={() => setShowTeams(true)}
                 variant="outline"
                 className="border-white/20 text-white hover:bg-primary/20"
               >
@@ -225,6 +256,7 @@ export const Dashboard = () => {
                 Teams
               </Button>
               <Button
+                onClick={() => setShowLeaderboard(true)}
                 variant="outline"
                 className="border-white/20 text-white hover:bg-primary/20"
               >
@@ -289,6 +321,22 @@ export const Dashboard = () => {
         open={showCreateTeam}
         onOpenChange={setShowCreateTeam}
         onCreateTeam={handleCreateTeam}
+      />
+
+      {/* Teams Modal */}
+      <TeamsModal
+        open={showTeams}
+        onOpenChange={setShowTeams}
+        onCreateTeam={() => {
+          setShowTeams(false);
+          setShowCreateTeam(true);
+        }}
+      />
+
+      {/* Leaderboard Modal */}
+      <LeaderboardModal
+        open={showLeaderboard}
+        onOpenChange={setShowLeaderboard}
       />
     </div>
   );

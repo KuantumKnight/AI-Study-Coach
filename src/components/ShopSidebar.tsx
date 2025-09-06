@@ -51,6 +51,8 @@ export const ShopSidebar = ({ coins, onPurchase, onEquip }: ShopSidebarProps) =>
   const [items, setItems] = useState(shopItems);
   const [musicPlaying, setMusicPlaying] = useState(false);
   const [musicMuted, setMusicMuted] = useState(false);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [audioSource, setAudioSource] = useState<AudioBufferSourceNode | null>(null);
   const { toast } = useToast();
   const { changeTheme, theme } = useTheme();
 
@@ -117,6 +119,94 @@ export const ShopSidebar = ({ coins, onPurchase, onEquip }: ShopSidebarProps) =>
 
   const equippedMusic = items.find(item => item.category === 'music' && item.equipped);
 
+  // Initialize audio context
+  const initAudioContext = () => {
+    if (!audioContext) {
+      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      setAudioContext(ctx);
+    }
+  };
+
+  // Generate simple tones for different music types
+  const generateTone = (frequency: number, duration: number) => {
+    if (!audioContext) return;
+    
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    oscillator.type = 'sine';
+    
+    gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    gainNode.gain.linearRampToValueAtTime(0.1, audioContext.currentTime + 0.01);
+    gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + duration);
+    
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + duration);
+  };
+
+  const playMusic = () => {
+    if (!equippedMusic) return;
+    
+    initAudioContext();
+    
+    if (musicPlaying) {
+      // Stop current music
+      if (audioSource) {
+        audioSource.stop();
+        setAudioSource(null);
+      }
+      setMusicPlaying(false);
+    } else {
+      // Play music based on type
+      const playLoop = () => {
+        if (!audioContext || !musicPlaying) return;
+        
+        switch (equippedMusic.id) {
+          case 'music-lofi':
+            generateTone(220, 0.5); // A3
+            setTimeout(() => generateTone(277, 0.5), 500); // C#4
+            setTimeout(() => generateTone(330, 0.5), 1000); // E4
+            setTimeout(() => generateTone(277, 0.5), 1500); // C#4
+            break;
+          case 'music-classical':
+            generateTone(261, 0.8); // C4
+            setTimeout(() => generateTone(329, 0.8), 800); // E4
+            setTimeout(() => generateTone(392, 0.8), 1600); // G4
+            break;
+          case 'music-nature':
+            generateTone(440, 0.3); // A4
+            setTimeout(() => generateTone(523, 0.3), 300); // C5
+            setTimeout(() => generateTone(659, 0.3), 600); // E5
+            break;
+          case 'music-electronic':
+            generateTone(220, 0.2); // A3
+            setTimeout(() => generateTone(330, 0.2), 200); // E4
+            setTimeout(() => generateTone(440, 0.2), 400); // A4
+            setTimeout(() => generateTone(330, 0.2), 600); // E4
+            break;
+        }
+        
+        if (musicPlaying) {
+          setTimeout(playLoop, 2000);
+        }
+      };
+      
+      setMusicPlaying(true);
+      playLoop();
+    }
+  };
+
+  const toggleMute = () => {
+    setMusicMuted(!musicMuted);
+    if (audioContext) {
+      audioContext.resume();
+    }
+  };
+
   return (
     <Card className="h-full bg-gradient-secondary text-white border-0 shadow-glow">
       <div className="p-6 border-b border-white/20">
@@ -139,7 +229,7 @@ export const ShopSidebar = ({ coins, onPurchase, onEquip }: ShopSidebarProps) =>
                 <Button
                   size="sm"
                   variant="ghost"
-                  onClick={() => setMusicPlaying(!musicPlaying)}
+                  onClick={playMusic}
                   className="text-white hover:bg-primary/20 p-1 h-7 w-7"
                 >
                   {musicPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -147,7 +237,7 @@ export const ShopSidebar = ({ coins, onPurchase, onEquip }: ShopSidebarProps) =>
                 <Button
                   size="sm"
                   variant="ghost"
-                  onClick={() => setMusicMuted(!musicMuted)}
+                  onClick={toggleMute}
                   className="text-white hover:bg-primary/20 p-1 h-7 w-7"
                 >
                   {musicMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here lol
-. 
+0. 
 All colors MUST be HSL.
 */
 
@@ -258,6 +258,15 @@ All colors MUST be HSL.
   
   .hover-lift:hover {
     transform: translateY(-2px);
+  }
+
+  /* Remove white hover effects in light mode */
+  .light .hover\:bg-white\/10:hover {
+    background-color: transparent !important;
+  }
+  
+  .light .hover\:bg-white\/20:hover {
+    background-color: transparent !important;
   }
 
   /* Better focus states */
