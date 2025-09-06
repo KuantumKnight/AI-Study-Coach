@@ -52,7 +52,7 @@ A **virtual AI mentor** that:
    cd AI-Study-Coach
 2. **Install dependencies**
    ```bash
-   npm install
+   npm install -D vite
    # or
    bun install
 3. **Run the dev server**
